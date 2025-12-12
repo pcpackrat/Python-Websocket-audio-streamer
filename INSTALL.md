@@ -2,50 +2,79 @@
 
 ## What You Have
 
-This package contains everything needed to integrate the USRP Audio Streamer with Allmon3:
+This package contains everything needed to integrate the USRP Audio Streamer with Allmon3, customized for different deployment needs.
 
-### Core Files
-- **`usrp_ws.py`** - Python WebSocket server (receives USRP packets, streams to browsers)
-- **`asl-monitor.js`** - JavaScript client for audio playback
-- **`index.html`** - Standalone demo page (optional)
+### Installation Directories
 
-### Installation Scripts
-- **`install.sh`** - Automated installation script
-- **`uninstall.sh`** - Automated uninstallation script
+- **`install/`** - Standard installation for Allmon3 (supports HAProxy/Apache proxy).
+  - `install.sh`: The main automated installer.
+  - `uninstall.sh`: Remover script.
+  - `update_index.sh`: Fixes the index page link after updates.
+- **`install-other/`** - Alternative scripts for custom setups.
+  - `install_standalone_stream.sh`: Creates a separate `stream.html` page instead of modifying `index.html`.
+  - `install_allmon3_index.sh`: Manually adds the "Stream Audio" link to the existing `index.html`.
+  - `update_index.sh`: Repair script (same function as in `install/` but for this context).
 
 ### Documentation
 - **`README.md`** - General deployment guide
 - **`ALLMON3_INTEGRATION.md`** - Detailed Allmon3 integration guide
 - **`apache-config.conf`** - Example Apache configuration
 
-## Quick Installation
+## Standard Installation (Recommended)
 
 1. **Transfer files to your server:**
    ```bash
    scp -r * user@your-server:/tmp/usrp-audio-streamer/
    ```
 
-2. **SSH to your server and run the installer:**
+2. **Run the installer:**
    ```bash
-   cd /tmp/usrp-audio-streamer
+   cd /tmp/usrp-audio-streamer/install
    chmod +x install.sh
    sudo ./install.sh
    ```
 
-3. **Follow the on-screen instructions** to add the monitor to your Allmon3 page
+3. **Follow the on-screen instructions** to verify the installation.
+
+## Alternative Instructions
+
+### Standalone Page
+To create a dedicated `stream.html` instead of integrating into the dashboard:
+```bash
+cd /tmp/usrp-audio-streamer/install-other
+chmod +x install_standalone_stream.sh
+sudo ./install_standalone_stream.sh
+```
+
+### Manual Integration
+To just add the link to `index.html` (useful if you installed manually or `install.sh` missed it):
+```bash
+cd /tmp/usrp-audio-streamer/install-other
+chmod +x install_allmon3_index.sh
+sudo ./install_allmon3_index.sh
+```
+
+## Maintenance
+
+### Restoring the Link
+If an Allmon3 update overwrites your `index.html`, you can restore the button using the update script:
+```bash
+cd /tmp/usrp-audio-streamer/install  # or install-other
+sudo ./update_index.sh
+```
 
 ## What the Installer Does
 
 1. ✅ Installs System Dependencies (Python 3, pip, net-tools, tcpdump)
 2. ✅ Installs Python `websockets` library
 3. ✅ Copies `usrp_ws.py` to `/opt/usrp-ws/`
-3. ✅ Copies `asl-monitor.js` to `/usr/share/allmon3/js/`
-4. ✅ Automatically adds "Stream Audio" button to `/usr/share/allmon3/index.html`
-5. ✅ Creates systemd service `/etc/systemd/system/usrp-ws.service`
-6. ✅ Modifies Apache config at `/etc/apache2/conf-enabled/allmon3.conf`
-7. ✅ Enables Apache proxy modules
-8. ✅ Starts the WebSocket service
-9. ✅ Reloads Apache
+4. ✅ Copies `asl-monitor.js` to `/usr/share/allmon3/js/`
+5. ✅ Automatically adds "Stream Audio" button to `/usr/share/allmon3/index.html` (Standard install only)
+6. ✅ Creates systemd service `/etc/systemd/system/usrp-ws.service`
+7. ✅ Modifies Apache config at `/etc/apache2/conf-enabled/allmon3.conf`
+8. ✅ Enables Apache proxy modules
+9. ✅ Starts the WebSocket service
+10. ✅ Reloads Apache
 
 ## After Installation
 
@@ -116,6 +145,7 @@ backend ws_back
 
 To remove the audio streamer:
 ```bash
+cd install
 sudo ./uninstall.sh
 ```
 

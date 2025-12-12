@@ -1,14 +1,12 @@
 # AllStarLink Audio Monitor - Deployment Guide
 
-## Quick Install (Allmon3 Integration)
+## Quick Install (Allmon3 + HAProxy Integration)
 
-For quick installation on a system with Allmon3 already installed:
+For standard installation where Allmon3 is running under HAProxy (or standard Apache):
 
 ```bash
-# Make the install script executable
+cd install
 chmod +x install.sh
-
-# Run the installation script
 sudo ./install.sh
 ```
 
@@ -23,7 +21,42 @@ See [ALLMON3_INTEGRATION.md](ALLMON3_INTEGRATION.md) for detailed integration in
 
 To uninstall:
 ```bash
+cd install
 sudo ./uninstall.sh
+```
+
+---
+
+## Alternative Installations
+
+The `install-other/` directory contains scripts for specific use cases:
+
+### 1. Standalone Stream Page
+If you want a dedicated stream page (e.g., `stream.html`) instead of modifying `index.html`:
+
+```bash
+cd install-other
+chmod +x install_standalone_stream.sh
+sudo ./install_standalone_stream.sh
+```
+This creates `http://your-node/allmon3/stream.html`.
+
+### 2. Manual Index Link
+If you only need to add the "Stream Audio" link to the top of your existing Allmon3 index page (useful if `install.sh` didn't place it where you wanted):
+
+```bash
+cd install-other
+chmod +x install_allmon3_index.sh
+sudo ./install_allmon3_index.sh
+```
+
+### 3. Repair Index Link
+If an Allmon3 update overwrites your `index.html` and removes the link, run:
+
+```bash
+cd install-other
+chmod +x update_index.sh
+sudo ./update_index.sh
 ```
 
 ---
@@ -44,7 +77,7 @@ USRP (UDP:34001) → Python Server (WS:8080) → Apache (HTTP:80) → Browser
 - Apache 2.4+ web server
 - Linux/Unix system (for production) or Windows (for development)
 
-## Installation Steps
+## Manual Installation Steps (Reference)
 
 ### 1. Install Python Dependencies
 ```bash
