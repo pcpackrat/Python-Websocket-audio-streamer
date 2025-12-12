@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AllStarLink Audio Monitor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎙️ AllStarLink Audio Monitor</h1>
+            <p class="subtitle">Real-time USRP Audio Stream</p>
+        </header>
+
+        <div class="monitor-panel">
+            <div class="status-section">
+                <div class="status-item">
+                    <label>Connection Status:</label>
+                    <span id="rxStatus" class="status-value">Disconnected</span>
+                </div>
+                <div class="status-item">
+                    <label>PTT State:</label>
+                    <span id="rxPTT" class="status-value ptt-idle">Idle</span>
+                </div>
+            </div>
+
+            <div class="metadata-section">
+                <h2>Transmission Info</h2>
+                <div class="metadata-grid">
+                    <div class="meta-item">
+                        <label>Callsign:</label>
+                        <span id="rxCall" class="meta-value">—</span>
+                    </div>
+                    <div class="meta-item">
+                        <label>Talkgroup:</label>
+                        <span id="rxTG" class="meta-value">—</span>
+                    </div>
+                    <div class="meta-item">
+                        <label>Slot:</label>
+                        <span id="rxSlot" class="meta-value">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="startBtn" class="btn btn-primary">Start Monitoring</button>
+                <button id="stopBtn" class="btn btn-secondary" disabled>Stop Monitoring</button>
+            </div>
+        </div>
+
+        <footer>
+            <p>WebSocket Audio Streamer | 8kHz PCM Audio</p>
+        </footer>
+    </div>
+
+    <script src="asl-monitor.js"></script>
+    <script>
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+
+        startBtn.addEventListener('click', () => {
+            ASLMonitor.start();
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+        });
+
+        stopBtn.addEventListener('click', () => {
+            ASLMonitor.stop();
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+        });
+
+        // Auto-start on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                startBtn.click();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
