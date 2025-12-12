@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# update_index.sh - Re-apply Stream Audio button to Allmon3 index.html
-# Use this if an Allmon3 update overwrites your index.html
+# install_allmon3_index.sh - Manually add Stream Audio button to Allmon3 index.html
+# Use this to add the button without running the full installer
 #
 
 set -e

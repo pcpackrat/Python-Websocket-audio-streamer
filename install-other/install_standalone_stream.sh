@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# install_standalone.sh - Installation script for USRP Audio Streamer (Standalone Node)
+# install_standalone_stream.sh - Installation script for USRP Audio Streamer (Standalone Node)
 # - Installs dependencies (Python, websockets, system tools)
 # - Sets up usrp_ws.py service
 # - Configures Apache WebSocket proxy
